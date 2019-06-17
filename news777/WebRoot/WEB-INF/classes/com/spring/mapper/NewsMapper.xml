@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.dao.NewsDao">
+	<resultMap type="News" id="newsMap">
+		<id property="newsId" column="news_id" />
+		<result property="newsTitle" column="news_title"/>
+		<result property="newsContent" column="news_content"/>
+		<result property="newsAuthor" column="news_author" />
+		<result property="createTime" column="create_time" />
+		<result property="modifyTime" column="modify_time" />
+		<association property="topic" javaType="Topic" >
+			<id property="topicId" column="topic_id" />
+			<result property="topicName" column="topic_name" />
+		</association>
+	</resultMap>
+	
+	<!-- 查询所有的新闻 -->
+	<select id="selectAll" resultMap="newsMap">
+		select news_id,
+			   news_title,
+			   news_content,
+			   news_author,
+			   create_time,
+			   modify_time,
+			   t.topic_id,
+			   t.topic_name
+		  from news n,topic t
+		 where n.topic_id=t.topic_id
+	</select>
+	
+	<!-- 查询记录数 -->
+	<select id="selectCount" resultType="int">
+		select count(*) from news
+	</select>
+	
+	<!-- 分页查询新闻 -->
+	<select id="selectByPage" resultMap="newsMap">
+		select news_id,
+			   news_title,
+			   news_content,
+			   news_author,
+			   create_time,
+			   modify_time,
+			   t.topic_id,
+			   t.topic_name
+		  from news n,topic t
+		 where n.topic_id=t.topic_id
+	</select>
+	
+</mapper>
